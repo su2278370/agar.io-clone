@@ -743,6 +743,6 @@ setInterval(sendUpdates, 1000 / c.networkUpdateFactor);
 // Don't touch, IP configurations.
 var ipaddress = process.env.OPENSHIFT_NODEJS_IP || process.env.IP || c.host;
 var serverport = process.env.OPENSHIFT_NODEJS_PORT || process.env.PORT || c.port;
-http.listen( serverport, ipaddress, function() {
+http.listen( serverport, '192.168.164.250', function() {
     console.log('[DEBUG] Listening on ' + ipaddress + ':' + serverport);
 });

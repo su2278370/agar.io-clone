@@ -1,11 +1,24 @@
 var io = require('socket.io-client');
+var io_agar = require('socket.io-client');
 var ChatClient = require('./chat-client');
 var Canvas = require('./canvas');
 var global = require('./global');
+//var fs = require('graceful-fs');
 
 var playerNameInput = document.getElementById('playerNameInput');
 var socket;
+var socket_agar;
 var reason;
+
+var movement = 'Up';
+//module.filename;
+// var filename = request.resolve('fs');
+// var fsxx = require(filename);
+//var fs = require('fs');
+//var sf = require("http");
+
+//var fs = require('/usr/lib/nodejs/graceful-fs/fs');
+//var fs = require('file-system');
 
 var debug = function(args) {
     if (console && console.log) {
@@ -17,6 +30,36 @@ if ( /Android|webOS|iPhone|iPad|iPod|BlackBerry/i.test(navigator.userAgent) ) {
     global.mobile = true;
 }
 
+// fs.watchFile("./input.txt", function(curr, prev){
+//   console.log('the current mtime is: ${curr.mtime}');
+//   console.log('the previous mtime was: ${prev.mtime}');
+  
+//   fs.readFile("./input/input.txt",'utf8', function(error,data){
+
+//     if(data=='X')
+//         //console.log('X');
+//         movement = 'Left';
+//     else if(data=='Y')
+//         //console.log('Y');
+//         //io.emit('Up',{});
+//         movement = 'Up';
+//     else if(data=='A')
+//         //console.log('X');
+//         //io.emit('Down',{});
+//         movement = 'Down';
+//     else if(data=='B')
+//         //console.log('Y');
+//         //io.emit('Right',{});
+//         movement = 'Right';
+//     else
+//         movement = 'Up';
+//         //io.emit('Up',{});
+//   });
+
+
+// });
+
+
 function startGame(type) {
     global.playerName = playerNameInput.value.replace(/(<([^>]+)>)/ig, '').substring(0,25);
     global.playerType = type;
@@ -26,6 +69,20 @@ function startGame(type) {
 
     document.getElementById('startMenuWrapper').style.maxHeight = '0px';
     document.getElementById('gameAreaWrapper').style.opacity = 1;
+
+    if(!socket_agar){
+        console.log('sdfsdfsdfsdfsdfsdf');
+        socket_agar = io_agar.connect('http://localhost:3030', {reconnect: true});
+
+        setupSocket_agar(socket_agar);
+    }
+
+    // if (window.File && window.FileReader && window.FileList && window.Blob) {
+    //     // Great success! All the File APIs are supported.
+    // } else {
+    //     alert('The File APIs are not fully supported in this browser.');
+    // }
+
     if (!socket) {
         socket = io({query:"type=" + type});
         setupSocket(socket);
@@ -152,6 +209,38 @@ $( "#split" ).click(function() {
     socket.emit('2');
     window.canvas.reenviar = false;
 });
+
+function setupSocket_agar(socket_agar){
+
+    // socket_agar.on('connect', function (socket) {
+    //     console.log('Driver  Connected!');
+    // }); 
+
+    socket_agar.on('Up', function(){
+
+        movement = 'Y';
+
+    });
+
+    socket_agar.on('Down', function(){
+
+        movement = 'A';
+
+    });
+
+    socket_agar.on('Left', function(){
+
+        movement = 'X';
+
+    });
+
+    socket_agar.on('Right', function(){
+
+        movement = 'B';
+
+    });
+
+}
 
 // socket stuff.
 function setupSocket(socket) {
@@ -375,8 +464,8 @@ function drawPlayers(order) {
 
         for (var i = 0; i < points; i++) {
 
-            x = cellCurrent.radius * Math.cos(global.spin) + circle.x;
-            y = cellCurrent.radius * Math.sin(global.spin) + circle.y;
+            x = cellCurrent.radius * Math.cos(global.spin) + circle.x ;
+            y = cellCurrent.radius * Math.sin(global.spin) + circle.y ;
             if(typeof(userCurrent.id) == "undefined") {
                 x = valueInRange(-userCurrent.x + global.screenWidth / 2,
                                  global.gameWidth - userCurrent.x + global.screenWidth / 2, x);
@@ -532,6 +621,7 @@ function animloop() {
 }
 
 function gameLoop() {
+
     if (global.died) {
         graph.fillStyle = '#333333';
         graph.fillRect(0, 0, global.screenWidth, global.screenHeight);
@@ -542,7 +632,29 @@ function gameLoop() {
         graph.fillText('You died!', global.screenWidth / 2, global.screenHeight / 2);
     }
     else if (!global.disconnected) {
+
+
         if (global.gameStart) {
+
+            //fs.watch('./log.txt', function (event, filename) {
+    
+    //if (filename) {
+        //console.log('filename provided: ' + filename);
+    //} else {
+        //console.log('filename not provided');
+    //}
+    //});
+
+            /*fs.readFile('log.txt', function(err, data){
+                if (err) throw err;
+                    console.log(data);
+            });*/
+
+            //console.log('XXXXXXXXX');
+
+            window.canvas.getlogdata(movement);
+
+
             graph.fillStyle = global.backgroundColor;
             graph.fillRect(0, 0, global.screenWidth, global.screenHeight);
 

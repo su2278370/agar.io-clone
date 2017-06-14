@@ -24,6 +24,38 @@ class Canvas {
         this.cv.addEventListener('touchmove', this.touchInput, false);
         this.cv.parent = self;
         global.canvas = this;
+
+    }
+
+    //var buttonX;
+    //var buttonY;
+
+    getlogdata(button){
+
+        var speed = 500;
+    	
+    	if(button=='X'){ //Left
+            	this.target.x = -500;
+    		this.target.y = 0;
+    	}
+    	else if(button=='Y'){ //Up
+    		this.target.x = 0;
+    		this.target.y = -200;	
+    	}
+
+        else if(button=='A'){ //Down
+            this.target.x = 0;
+            this.target.y = 200;   
+        }
+
+        else if(button=='B'){ //Right
+            this.target.x = 500;
+            this.target.y = 0;   
+        }
+
+	//buttonX = buttonupdown;
+
+        //buttonY = buttonleftright;
     }
 
     // Function called when a key is pressed, will change direction if arrow key.
@@ -90,20 +122,31 @@ class Canvas {
     			else if (list[i] == global.KEY_DOWN) directionVertical += Number.MAX_VALUE;
     		}
     	}
-    	this.target.x += directionHorizontal;
-    	this.target.y += directionVertical;
+    	this.target.x = 500;//+= directionHorizontal;
+    	this.target.y = 500;//+= directionVertical;
         global.target = this.target;
     }
 
     directional(key) {
+
+
     	return this.horizontal(key) || this.vertical(key);
     }
 
     horizontal(key) {
+
+        //if(buttonleftright=='X')
+           // return key == global.KEY_LEFT;
+        //else if(buttonleftright=='Y')            
+           // return key == global.KEY_RIGHT;
     	return key == global.KEY_LEFT || key == global.KEY_RIGHT;
     }
 
     vertical(key) {
+	//if(buttonleftright=='A')
+            //return key == global.KEY_UP;
+        //else if(buttonleftright=='B')
+            //return global.KEY_DOWN;        
     	return key == global.KEY_DOWN || key == global.KEY_UP;
     }
 
