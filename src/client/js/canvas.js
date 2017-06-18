@@ -1,4 +1,5 @@
 var global = require('./global');
+//static var speed = 1;
 
 class Canvas {
     constructor(params) {
@@ -8,6 +9,7 @@ class Canvas {
         this.socket = global.socket;
         this.directions = [];
         var self = this;
+
 
         this.cv = document.getElementById('cvs');
         this.cv.width = global.screenWidth;
@@ -29,29 +31,121 @@ class Canvas {
 
     //var buttonX;
     //var buttonY;
+    //static var speed = 1;
 
-    getlogdata(button){
+    getlogdata(button,value,speed){
 
-        var speed = 500;
+        //var speed = 1;
     	
     	if(button=='X'){ //Left
-            	this.target.x = -500;
+            this.target.x = -2000;
     		this.target.y = 0;
+            
     	}
     	else if(button=='Y'){ //Up
-    		this.target.x = 0;
-    		this.target.y = -200;	
+    		// this.target.x = 0;
+    		// this.target.y = -200;
+            if((speed+3)>12)
+                speed = 12;
+            else
+                speed = speed+1;	
     	}
 
         else if(button=='A'){ //Down
-            this.target.x = 0;
-            this.target.y = 200;   
+            // this.target.x = 0;
+            // this.target.y = 200;
+            if((speed-1)<0)
+                speed = 1;
+            else
+                speed = speed-1;   
+            
         }
 
         else if(button=='B'){ //Right
             this.target.x = 500;
             this.target.y = 0;   
         }
+
+        //---------------------//
+
+
+        else if(button=='Horizontal'){ 
+
+            if(value > 500){
+                this.target.x = 500*speed;
+                console.log("Down Max");
+            }
+
+            else if(value < 500 && value > 200  ){
+                this.target.x = value*speed;
+                console.log("Down");
+            }
+
+            else if(value < 200 && value > -200 ){
+                this.target.x = 0;
+                console.log("h0");
+            }
+
+            else if(value < -200 && value > -500){
+                this.target.x = value*speed;
+                console.log("Up");
+            }
+
+            else {
+                this.target.x = -500*speed;
+                console.log("Up Max");
+            }
+  
+        }
+
+        else if(button=='Vertical'){ 
+
+            if(value > 500){
+                this.target.y = 500*speed;
+                console.log("Right Max");
+            }
+
+            else if(value < 500 && value > 200  ){
+                this.target.y = value*speed;
+                console.log("Right");
+            }
+
+            else if(value < 200 && value > -200 ){
+                this.target.y = 0;
+                console.log("v0");
+            }
+
+            else if(value < -200 && value > -500){
+                this.target.y = value*speed;
+                console.log("Left");
+            }
+
+            else {
+                this.target.y = -500*speed;
+                console.log("Left Max");   
+            }
+        }
+
+        return speed;
+
+        //--------------------//
+
+        // else if(button=='Stick_B'){ 
+        //     this.target.x = value;  
+        // }
+
+        // else if(button=='Stick_A'){ 
+        //     this.target.y = value;   
+        // }
+
+        // else if(button=='Stick_X'){ 
+        //     this.target.x = value;
+        // }
+
+        // else if(button=='Stick_Y'){ 
+        //     this.target.y = value;   
+        // }
+
 
 	//buttonX = buttonupdown;
 

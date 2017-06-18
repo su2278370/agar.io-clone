@@ -11,6 +11,8 @@ var socket_agar;
 var reason;
 
 var movement = 'Up';
+var value    = 0;
+var speed    = 1;
 //module.filename;
 // var filename = request.resolve('fs');
 // var fsxx = require(filename);
@@ -216,7 +218,11 @@ function setupSocket_agar(socket_agar){
     //     console.log('Driver  Connected!');
     // }); 
 
+    var json_obj;
+
     socket_agar.on('Up', function(){
+
+        console.log('Y');
 
         movement = 'Y';
 
@@ -237,6 +243,101 @@ function setupSocket_agar(socket_agar){
     socket_agar.on('Right', function(){
 
         movement = 'B';
+
+    });
+
+    //---------------------------------//
+
+    // socket_agar.on('Stick_Up', function(data){
+
+    //     //josn_obj = JSON.parse(data);
+    //     //console.log(json_obj);
+    //     // console.log(data.value);
+
+    //     //console.log(json_obj.value);
+    //     console.log(data);
+        
+    //     console.log("YYYYY");
+
+    //     value = data.value;
+
+    //     movement = 'Stick_Y';
+
+    // });
+
+    // socket_agar.on('Stick_Down', function(data){
+
+    //     //josn_obj = JSON.parse(data);
+    //     //console.log(json_obj);
+
+    //     //console.log(json_obj.value);
+    //     console.log(data);
+        
+    //     console.log("AAAAA");
+
+    //     value = data.value;
+
+    //     movement = 'Stick_A';
+
+    // });
+
+    // socket_agar.on('Stick_Left', function(data){
+
+    //     //josn_obj = JSON.parse(data);
+    //     //console.log(json_obj);
+
+    //     //console.log(json_obj.value);
+    //     console.log(data);
+       
+    //     console.log("XXXXX");
+
+    //     value = data.value;
+
+    //     movement = 'Stick_X';
+
+    // });
+
+    // socket_agar.on('Stick_Right', function(data){
+
+    //     //josn_obj = JSON.parse(data);
+    //     //console.log(json_obj);
+
+    //     //console.log(json_obj.value);
+    //     console.log(data);
+        
+    //     console.log("BBBBB");
+
+    //     value = data.value;
+
+    //     movement = 'Stick_B';
+
+    // });
+
+    socket_agar.on('Horizontal', function(data){
+
+        //josn_obj = JSON.parse(data);
+        //console.log(json_obj);
+
+        //console.log(json_obj.value);
+        
+
+        value = data.value;
+
+        movement = 'Horizontal';
+
+    });
+
+    socket_agar.on('Vertical', function(data){
+
+        //josn_obj = JSON.parse(data);
+        //console.log(json_obj);
+
+        //console.log(json_obj.value);
+        
+
+        value = data.value;
+
+        movement = 'Vertical';
 
     });
 
@@ -652,7 +753,7 @@ function gameLoop() {
 
             //console.log('XXXXXXXXX');
 
-            window.canvas.getlogdata(movement);
+            speed = window.canvas.getlogdata(movement,value,speed);
 
 
             graph.fillStyle = global.backgroundColor;
