@@ -3,7 +3,6 @@ var io_agar = require('socket.io-client');
 var ChatClient = require('./chat-client');
 var Canvas = require('./canvas');
 var global = require('./global');
-//var fs = require('graceful-fs');
 
 var playerNameInput = document.getElementById('playerNameInput');
 var socket;
@@ -12,15 +11,6 @@ var reason;
 
 var movement = 'Up';
 var value    = 0;
-var speed    = 1;
-//module.filename;
-// var filename = request.resolve('fs');
-// var fsxx = require(filename);
-//var fs = require('fs');
-//var sf = require("http");
-
-//var fs = require('/usr/lib/nodejs/graceful-fs/fs');
-//var fs = require('file-system');
 
 var debug = function(args) {
     if (console && console.log) {
@@ -31,36 +21,6 @@ var debug = function(args) {
 if ( /Android|webOS|iPhone|iPad|iPod|BlackBerry/i.test(navigator.userAgent) ) {
     global.mobile = true;
 }
-
-// fs.watchFile("./input.txt", function(curr, prev){
-//   console.log('the current mtime is: ${curr.mtime}');
-//   console.log('the previous mtime was: ${prev.mtime}');
-  
-//   fs.readFile("./input/input.txt",'utf8', function(error,data){
-
-//     if(data=='X')
-//         //console.log('X');
-//         movement = 'Left';
-//     else if(data=='Y')
-//         //console.log('Y');
-//         //io.emit('Up',{});
-//         movement = 'Up';
-//     else if(data=='A')
-//         //console.log('X');
-//         //io.emit('Down',{});
-//         movement = 'Down';
-//     else if(data=='B')
-//         //console.log('Y');
-//         //io.emit('Right',{});
-//         movement = 'Right';
-//     else
-//         movement = 'Up';
-//         //io.emit('Up',{});
-//   });
-
-
-// });
-
 
 function startGame(type) {
     global.playerName = playerNameInput.value.replace(/(<([^>]+)>)/ig, '').substring(0,25);
@@ -78,12 +38,6 @@ function startGame(type) {
 
         setupSocket_agar(socket_agar);
     }
-
-    // if (window.File && window.FileReader && window.FileList && window.Blob) {
-    //     // Great success! All the File APIs are supported.
-    // } else {
-    //     alert('The File APIs are not fully supported in this browser.');
-    // }
 
     if (!socket) {
         socket = io({query:"type=" + type});
@@ -214,9 +168,6 @@ $( "#split" ).click(function() {
 
 function setupSocket_agar(socket_agar){
 
-    // socket_agar.on('connect', function (socket) {
-    //     console.log('Driver  Connected!');
-    // }); 
 
     var json_obj;
 
@@ -246,78 +197,11 @@ function setupSocket_agar(socket_agar){
 
     });
 
-    //---------------------------------//
-
-    // socket_agar.on('Stick_Up', function(data){
-
-    //     //josn_obj = JSON.parse(data);
-    //     //console.log(json_obj);
-    //     // console.log(data.value);
-
-    //     //console.log(json_obj.value);
-    //     console.log(data);
-        
-    //     console.log("YYYYY");
-
-    //     value = data.value;
-
-    //     movement = 'Stick_Y';
-
-    // });
-
-    // socket_agar.on('Stick_Down', function(data){
-
-    //     //josn_obj = JSON.parse(data);
-    //     //console.log(json_obj);
-
-    //     //console.log(json_obj.value);
-    //     console.log(data);
-        
-    //     console.log("AAAAA");
-
-    //     value = data.value;
-
-    //     movement = 'Stick_A';
-
-    // });
-
-    // socket_agar.on('Stick_Left', function(data){
-
-    //     //josn_obj = JSON.parse(data);
-    //     //console.log(json_obj);
-
-    //     //console.log(json_obj.value);
-    //     console.log(data);
-       
-    //     console.log("XXXXX");
-
-    //     value = data.value;
-
-    //     movement = 'Stick_X';
-
-    // });
-
-    // socket_agar.on('Stick_Right', function(data){
-
-    //     //josn_obj = JSON.parse(data);
-    //     //console.log(json_obj);
-
-    //     //console.log(json_obj.value);
-    //     console.log(data);
-        
-    //     console.log("BBBBB");
-
-    //     value = data.value;
-
-    //     movement = 'Stick_B';
-
-    // });
 
     socket_agar.on('Horizontal', function(data){
 
         //josn_obj = JSON.parse(data);
         //console.log(json_obj);
-
         //console.log(json_obj.value);
         
 
@@ -331,7 +215,6 @@ function setupSocket_agar(socket_agar){
 
         //josn_obj = JSON.parse(data);
         //console.log(json_obj);
-
         //console.log(json_obj.value);
         
 
@@ -533,6 +416,7 @@ function drawFireFood(mass) {
 }
 
 function drawPlayers(order) {
+
     var start = {
         x: player.x - (global.screenWidth / 2),
         y: player.y - (global.screenHeight / 2)
@@ -630,6 +514,7 @@ function drawPlayers(order) {
             graph.fillText(Math.round(cellCurrent.mass), circle.x, circle.y+fontSize);
         }
     }
+
 }
 
 function valueInRange(min, max, value) {
@@ -737,23 +622,7 @@ function gameLoop() {
 
         if (global.gameStart) {
 
-            //fs.watch('./log.txt', function (event, filename) {
-    
-    //if (filename) {
-        //console.log('filename provided: ' + filename);
-    //} else {
-        //console.log('filename not provided');
-    //}
-    //});
-
-            /*fs.readFile('log.txt', function(err, data){
-                if (err) throw err;
-                    console.log(data);
-            });*/
-
-            //console.log('XXXXXXXXX');
-
-            speed = window.canvas.getlogdata(movement,value,speed);
+            window.canvas.getlogdata(movement,value);
 
 
             graph.fillStyle = global.backgroundColor;

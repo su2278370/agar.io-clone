@@ -1,5 +1,4 @@
 var global = require('./global');
-//static var speed = 1;
 
 class Canvas {
     constructor(params) {
@@ -29,13 +28,8 @@ class Canvas {
 
     }
 
-    //var buttonX;
-    //var buttonY;
-    //static var speed = 1;
+    getlogdata(button,value){
 
-    getlogdata(button,value,speed){
-
-        //var speed = 1;
     	
     	if(button=='X'){ //Left
             this.target.x = -2000;
@@ -43,22 +37,13 @@ class Canvas {
             
     	}
     	else if(button=='Y'){ //Up
-    		// this.target.x = 0;
-    		// this.target.y = -200;
-            if((speed+3)>12)
-                speed = 12;
-            else
-                speed = speed+1;	
+    		this.target.x = 0;
+    		this.target.y = -200;
     	}
 
         else if(button=='A'){ //Down
-            // this.target.x = 0;
-            // this.target.y = 200;
-            if((speed-1)<0)
-                speed = 1;
-            else
-                speed = speed-1;   
-            
+            this.target.x = 0;
+            this.target.y = 200;
         }
 
         else if(button=='B'){ //Right
@@ -66,18 +51,18 @@ class Canvas {
             this.target.y = 0;   
         }
 
-        //---------------------//
+        //-----------Analog input-----------//
 
 
         else if(button=='Horizontal'){ 
 
             if(value > 500){
-                this.target.x = 500*speed;
+                this.target.x = 500;
                 console.log("Down Max");
             }
 
             else if(value < 500 && value > 200  ){
-                this.target.x = value*speed;
+                this.target.x = value;
                 console.log("Down");
             }
 
@@ -87,12 +72,12 @@ class Canvas {
             }
 
             else if(value < -200 && value > -500){
-                this.target.x = value*speed;
+                this.target.x = value;
                 console.log("Up");
             }
 
             else {
-                this.target.x = -500*speed;
+                this.target.x = -500;
                 console.log("Up Max");
             }
   
@@ -101,12 +86,12 @@ class Canvas {
         else if(button=='Vertical'){ 
 
             if(value > 500){
-                this.target.y = 500*speed;
+                this.target.y = 500;
                 console.log("Right Max");
             }
 
             else if(value < 500 && value > 200  ){
-                this.target.y = value*speed;
+                this.target.y = value;
                 console.log("Right");
             }
 
@@ -116,40 +101,16 @@ class Canvas {
             }
 
             else if(value < -200 && value > -500){
-                this.target.y = value*speed;
+                this.target.y = value;
                 console.log("Left");
             }
 
             else {
-                this.target.y = -500*speed;
+                this.target.y = -500;
                 console.log("Left Max");   
             }
         }
 
-        return speed;
-
-        //--------------------//
-
-        // else if(button=='Stick_B'){ 
-        //     this.target.x = value;  
-        // }
-
-        // else if(button=='Stick_A'){ 
-        //     this.target.y = value;   
-        // }
-
-        // else if(button=='Stick_X'){ 
-        //     this.target.x = value;
-        // }
-
-        // else if(button=='Stick_Y'){ 
-        //     this.target.y = value;   
-        // }
-
-
-	//buttonX = buttonupdown;
-
-        //buttonY = buttonleftright;
     }
 
     // Function called when a key is pressed, will change direction if arrow key.
@@ -223,24 +184,16 @@ class Canvas {
 
     directional(key) {
 
-
     	return this.horizontal(key) || this.vertical(key);
     }
 
     horizontal(key) {
 
-        //if(buttonleftright=='X')
-           // return key == global.KEY_LEFT;
-        //else if(buttonleftright=='Y')            
-           // return key == global.KEY_RIGHT;
     	return key == global.KEY_LEFT || key == global.KEY_RIGHT;
     }
 
     vertical(key) {
-	//if(buttonleftright=='A')
-            //return key == global.KEY_UP;
-        //else if(buttonleftright=='B')
-            //return global.KEY_DOWN;        
+
     	return key == global.KEY_DOWN || key == global.KEY_UP;
     }
 
@@ -253,6 +206,9 @@ class Canvas {
     }
 
     gameInput(mouse) {
+
+        //var end_time = new Date();
+
     	if (!this.directionLock) {
     		this.parent.target.x = mouse.clientX - this.width / 2;
     		this.parent.target.y = mouse.clientY - this.height / 2;
